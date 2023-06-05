@@ -1,8 +1,9 @@
 # CortexXDR-XQL
 Cortex XDR XQL Queries
 
-NEW LOCAL USER CREATION
-dataset = xdr_data 
+# **NEW LOCAL USER CREATION**
+config case_sensitive = false
+| dataset = xdr_data 
     | filter event_type = EVENT_LOG and action_evtlog_event_id = 4720
     | fields action_evtlog_data_fields as aedf, agent_hostname
     | filter aedf != null
