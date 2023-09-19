@@ -62,9 +62,7 @@ Cortex XDR XQL Queries
     | join type=left (preset=ad_users | fields security_identifier , member_of ) as ad ad.security_identifier = UserSID
     | join type=left conflict_strategy=both (preset = ad_computers | fields name, OU, security_group_list) as adcoms adcoms.name = agent_hostname
     | alter isDomainAdmin = arrayfilter(member_of , "@element" = "CN=Domain Admins,CN=Users,DC=Domain,DC=com")
-    | alter isExcluded = arrayfilter(security_group_list , "@element" = "CN=Exclude-Group,OU=Test,DC=Domain,DC=com")
     | filter OU != "Domain Controllers"
     | filter isDomainAdmin != null
-    | filter isExcluded != "CN=Exclude-Group,OU=Test,DC=Domain,DC=com"
-    | fields UserName, agent_hostname, DomainName, logonType, SourceIP, isDomainAdmin, isExcluded, member_of, security_group_list
+    | fields UserName, agent_hostname, DomainName, logonType, SourceIP, isDomainAdmin, member_of, security_group_list
     | dedup UserName, agent_hostname, DomainName, logonType, SourceIP
